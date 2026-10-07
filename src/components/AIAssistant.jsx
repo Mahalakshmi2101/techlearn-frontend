@@ -70,7 +70,7 @@ export default function AIAssistant({ courseTitle }) {
       <button
         onClick={() => setOpen(o => !o)}
         style={{
-          position: 'fixed', bottom: 28, right: 28, zIndex: 1000,
+          position: 'fixed', bottom: 90, right: 28, zIndex: 1000,
           width: 54, height: 54, borderRadius: '50%',
           background: 'linear-gradient(135deg, #7c3aed, #14a085)',
           border: 'none', color: '#fff', fontSize: 22,
@@ -87,7 +87,7 @@ export default function AIAssistant({ courseTitle }) {
       {/* Chat panel */}
       {open && (
         <div style={{
-          position: 'fixed', bottom: 96, right: 28, zIndex: 1000,
+          position: 'fixed', bottom: 158, right: 28, zIndex: 1000,
           width: 360, height: 500,
           background: 'var(--bg-card)',
           border: '1px solid var(--border-strong)',
