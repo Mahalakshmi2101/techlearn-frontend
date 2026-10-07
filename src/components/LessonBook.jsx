@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react'
 import api from '../api/axios'
+
 export default function LessonBook({ lessons, courseId, completedLessonIds, onProgressUpdate, initialLesson }) {
- const [current, setCurrent] = useState(initialLesson ?? 0)
+  const [current, setCurrent] = useState(initialLesson ?? 0)
   const [animating, setAnimating] = useState(false)
   const [direction, setDirection] = useState('next')
   const rightRef = useRef()
@@ -18,8 +19,8 @@ export default function LessonBook({ lessons, courseId, completedLessonIds, onPr
     setTimeout(() => {
       setCurrent(next)
       rightRef.current?.classList.remove('book-flip')
-      setTimeout(() => setAnimating(false), 350)
-    }, 380)
+      setAnimating(false)
+    }, 730)
   }
 
   const jumpTo = (i) => {
@@ -30,17 +31,22 @@ export default function LessonBook({ lessons, courseId, completedLessonIds, onPr
     setTimeout(() => {
       setCurrent(i)
       rightRef.current?.classList.remove('book-flip')
-      setTimeout(() => setAnimating(false), 350)
-    }, 380)
+      setAnimating(false)
+    }, 730)
   }
 
   const handleComplete = async () => {
     try {
-      const endpoint = isCompleted
-        ? `/progress/${courseId}/uncomplete-lesson`
-        : `/progress/${courseId}/complete-lesson`
-      const method = isCompleted ? 'delete' : 'post'
-      const res = await api[method](endpoint, { lesson_id: lesson.id })
+      let res
+      if (isCompleted) {
+        res = await api.delete(`/progress/${courseId}/uncomplete-lesson`, {
+          data: { lesson_id: lesson.id }
+        })
+      } else {
+        res = await api.post(`/progress/${courseId}/complete-lesson`, {
+          lesson_id: lesson.id
+        })
+      }
       onProgressUpdate(res.data, lesson.id, !isCompleted)
     } catch (err) {
       console.error(err)
@@ -71,13 +77,14 @@ export default function LessonBook({ lessons, courseId, completedLessonIds, onPr
           flex-direction: column; gap: 8px; padding: 2rem;
         }
         .page-front {
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-          height: 100%;
-          display: flex; flex-direction: column;
-          padding: 2rem;
-          overflow-y: auto;
-        }
+  position: relative;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  height: 100%;
+  display: flex; flex-direction: column;
+  padding: 2rem;
+  overflow-y: auto;
+}
         .page-front::-webkit-scrollbar { width: 4px; }
         .page-front::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
         pre { 

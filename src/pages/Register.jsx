@@ -2,6 +2,32 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../api/axios'
 
+const RequiredStar = () => <span style={{ color: '#ef4444', marginLeft: 2 }}>*</span>
+
+const PasswordInput = ({ fieldKey, placeholder, show, toggle, form, setForm }) => (
+  <div style={{ position: 'relative' }}>
+    <input
+      className="input"
+      type={show ? 'text' : 'password'}
+      placeholder={placeholder}
+      value={form[fieldKey]}
+      onChange={e => setForm(f => ({ ...f, [fieldKey]: e.target.value }))}
+      style={{ paddingRight: '2.5rem' }}
+    />
+    <button
+      type="button"
+      onClick={toggle}
+      style={{
+        position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
+        background: 'none', border: 'none', cursor: 'pointer',
+        color: 'var(--text-secondary)', padding: 0, fontSize: 16
+      }}
+    >
+      {show ? '🙈' : '👁️'}
+    </button>
+  </div>
+)
+
 export default function Register() {
   const [form, setForm] = useState({ username: '', email: '', password: '', confirm: '' })
   const [error, setError] = useState('')
@@ -40,32 +66,6 @@ export default function Register() {
       setLoading(false)
     }
   }
-
-  const RequiredStar = () => <span style={{ color: '#ef4444', marginLeft: 2 }}>*</span>
-
-  const PasswordInput = ({ fieldKey, placeholder, show, toggle }) => (
-    <div style={{ position: 'relative' }}>
-      <input
-        className="input"
-        type={show ? 'text' : 'password'}
-        placeholder={placeholder}
-        value={form[fieldKey]}
-        onChange={e => setForm(f => ({ ...f, [fieldKey]: e.target.value }))}
-        style={{ paddingRight: '2.5rem' }}
-      />
-      <button
-        type="button"
-        onClick={toggle}
-        style={{
-          position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
-          background: 'none', border: 'none', cursor: 'pointer',
-          color: 'var(--text-secondary)', padding: 0, fontSize: 16
-        }}
-      >
-        {show ? '🙈' : '👁️'}
-      </button>
-    </div>
-  )
 
   return (
     <div style={{
@@ -121,6 +121,8 @@ export default function Register() {
               placeholder="At least 6 characters"
               show={showPassword}
               toggle={() => setShowPassword(p => !p)}
+              form={form}
+              setForm={setForm}
             />
           </div>
 
@@ -133,6 +135,8 @@ export default function Register() {
               placeholder="Repeat your password"
               show={showConfirm}
               toggle={() => setShowConfirm(p => !p)}
+              form={form}
+              setForm={setForm}
             />
           </div>
 

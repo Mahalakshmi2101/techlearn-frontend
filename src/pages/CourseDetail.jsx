@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import LessonBook from '../components/LessonBook'
 import Quiz from '../components/Quiz'
-import AIAssistant from '../components/AIAssistant'
 import ProgressBar from '../components/ProgressBar'
 import LoadingSpinner from '../components/LoadingSpinner'
 import api from '../api/axios'
@@ -225,8 +224,6 @@ export default function CourseDetail() {
           <Quiz quiz={quiz} courseId={id} onClose={() => setShowQuiz(false)} />
         )}
       </main>
-
-      <AIAssistant courseTitle={course.title} />
 
       {toast && (
         <div className={`toast toast-${toast.type}`}>
